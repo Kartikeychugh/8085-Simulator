@@ -1,9 +1,5 @@
 import { setFlags } from "../../../features/flags/flagSlice";
-import {
-  loadRegister,
-  Registers,
-  selectHLMemoryAddress,
-} from "../../../features/registers/registerSlice";
+import { loadRegister } from "../../../features/registers/registerSlice";
 import { InstructionType } from "../../supported-instructions";
 import { performAND } from "../../../utils/and";
 import { readNumber } from "../../../utils/reading-numbers";

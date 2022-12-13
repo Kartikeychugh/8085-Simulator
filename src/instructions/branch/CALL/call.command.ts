@@ -2,7 +2,6 @@ import { RootState } from "../../../app/store";
 import { setMemoryLocation } from "../../../features/memory/memorySlice";
 import { loadRegister } from "../../../features/registers/registerSlice";
 import {
-  DecToHex,
   HexToDec,
   representWithRadix,
 } from "../../../utils/hexadecimal-representation";
