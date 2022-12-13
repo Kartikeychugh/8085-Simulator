@@ -17,6 +17,7 @@ export const MOV = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("MOV")) {
           return { compiled: false, compiledCode: null };
         }

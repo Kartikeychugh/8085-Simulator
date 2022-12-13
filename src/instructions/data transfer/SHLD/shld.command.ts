@@ -13,6 +13,7 @@ export const SHLD = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("SHLD")) {
           return { compiled: false, compiledCode: null };
         }

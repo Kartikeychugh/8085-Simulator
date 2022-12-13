@@ -53,7 +53,7 @@ export const SUB = (): { [key: string]: InstructionType } => {
     "92": MakeSUBInstruction("92", "D"),
     "93": MakeSUBInstruction("93", "E"),
     "94": MakeSUBInstruction("94", "H"),
-    "95": MakeSUBInstruction("55", "L"),
+    "95": MakeSUBInstruction("95", "L"),
     "96": MakeSUBInstruction("96", "M"),
   };
 };

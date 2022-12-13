@@ -29,6 +29,6 @@ export const RLC = (): { [key: string]: InstructionType } => {
   };
 
   return {
-    "1F": MakeRLCInstruction("1F"),
+    "07": MakeRLCInstruction("07"),
   };
 };

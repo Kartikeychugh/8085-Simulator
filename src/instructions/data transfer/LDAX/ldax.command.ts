@@ -15,6 +15,7 @@ export const LDAX = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("LDAX")) {
           return { compiled: false, compiledCode: null };
         }

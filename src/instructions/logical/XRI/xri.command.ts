@@ -1,18 +1,23 @@
 import { setFlags } from "../../../features/flags/flagSlice";
-import { loadRegister } from "../../../features/registers/registerSlice";
+import {
+  loadRegister,
+  Registers,
+  selectHLMemoryAddress,
+} from "../../../features/registers/registerSlice";
 import { InstructionType } from "../../supported-instructions";
-import { addition } from "../../../utils/addition";
-import { HexToDec } from "../../../utils/hexadecimal-representation";
+import { performAND } from "../../../utils/and";
 import { readNumber } from "../../../utils/reading-numbers";
+import { HexToDec } from "../../../utils/hexadecimal-representation";
+import { performXOR } from "../../../utils/xor";
 
-export const ACI = (): { [key: string]: InstructionType } => {
-  const MakeACIInstruction = (opcode: string): InstructionType => {
+export const XRI = (): { [key: string]: InstructionType } => {
+  const MakeXRIInstruction = (opcode: string): InstructionType => {
     const INSTRUCTION_SIZE = 2;
     return {
       opcode,
       compiler: (line: string) => {
         line = line.trim();
-        if (!line.startsWith("ACI")) {
+        if (!line.startsWith("XRI")) {
           return { compiled: false, compiledCode: null };
         }
 
@@ -32,14 +37,7 @@ export const ACI = (): { [key: string]: InstructionType } => {
         const location = state.registers.PC;
         const value = state.memory[location + 1];
         const accumulatorValue = state.registers.A;
-        const carry = state.flags.C ? 1 : 0;
-
-        const { result: intermediateResult } = addition(
-          accumulatorValue,
-          value
-        );
-
-        const { result, flags } = addition(intermediateResult, carry);
+        const { result, flags } = performXOR(accumulatorValue, value);
 
         dispatch(loadRegister({ register: "A", value: result }));
         dispatch(setFlags(flags));
@@ -50,6 +48,6 @@ export const ACI = (): { [key: string]: InstructionType } => {
   };
 
   return {
-    CE: MakeACIInstruction("CE"),
+    EE: MakeXRIInstruction("EE"),
   };
 };

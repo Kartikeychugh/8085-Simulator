@@ -60,6 +60,6 @@ export const ADC = (): { [key: string]: InstructionType } => {
     "8B": MakeADCInstruction("8B", "E"),
     "8C": MakeADCInstruction("8C", "H"),
     "8D": MakeADCInstruction("8D", "L"),
-    "8E": MakeADCInstruction("8D", "M"),
+    "8E": MakeADCInstruction("8E", "M"),
   };
 };

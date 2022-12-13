@@ -53,5 +53,6 @@ export const ANA = (): { [key: string]: InstructionType } => {
     A3: MakeANAInstruction("A3", "E"),
     A4: MakeANAInstruction("A4", "H"),
     A5: MakeANAInstruction("A5", "L"),
+    A6: MakeANAInstruction("A6", "M"),
   };
 };

@@ -13,6 +13,7 @@ export const STA = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("STA")) {
           return { compiled: false, compiledCode: null };
         }

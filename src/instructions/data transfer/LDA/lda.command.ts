@@ -13,6 +13,7 @@ export const LDA = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("LDA")) {
           return { compiled: false, compiledCode: null };
         }

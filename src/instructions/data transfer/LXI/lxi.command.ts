@@ -18,6 +18,7 @@ export const LXI = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("LXI")) {
           return { compiled: false, compiledCode: null };
         }

@@ -17,6 +17,7 @@ export const MVI = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("MVI")) {
           return { compiled: false, compiledCode: null };
         }

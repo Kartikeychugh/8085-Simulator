@@ -41,10 +41,10 @@ export const JUMP = (): { [key: string]: InstructionType } => {
       },
       execute: (state, _dispatch, _stack) => {
         const location = state.registers.PC;
-        const lowBits = state.memory[location + 1];
-        const highBits = state.memory[location + 2];
 
         if (condition(state)) {
+          const lowBits = state.memory[location + 1];
+          const highBits = state.memory[location + 2];
           return mergeBytes(highBits, lowBits);
         } else {
           return location + INSTRUCTION_SIZE;

@@ -13,6 +13,7 @@ export const STAX = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("STAX")) {
           return { compiled: false, compiledCode: null };
         }

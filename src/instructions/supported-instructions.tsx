@@ -39,6 +39,8 @@ import { SUB } from "./arithematic/SUB/sub.command";
 import { SUI } from "./arithematic/SUI/sui.command";
 import { XCHG } from "./data transfer/XCHG/xchg.command";
 import { XRA } from "./logical/XRA/xra.command";
+import { ANI } from "./logical/ANI/ani.command";
+import { XRI } from "./logical/XRI/xri.command";
 
 export type InstructionType = {
   opcode: string;
@@ -83,6 +85,7 @@ export const SupportedInstructions = {
 
   // logical
   ...ANA(),
+  ...ANI(),
   ...CMP(),
   ...ORA(),
   ...RAL(),
@@ -90,6 +93,7 @@ export const SupportedInstructions = {
   ...RLC(),
   ...RRC(),
   ...XRA(),
+  ...XRI(),
 
   // process
   ...HLT(),

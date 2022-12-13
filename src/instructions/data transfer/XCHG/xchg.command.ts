@@ -7,6 +7,7 @@ export const XCHG = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("XCHG")) {
           return { compiled: false, compiledCode: null };
         }

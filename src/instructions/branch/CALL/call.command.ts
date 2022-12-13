@@ -1,3 +1,4 @@
+import { RootState } from "../../../app/store";
 import { setMemoryLocation } from "../../../features/memory/memorySlice";
 import { loadRegister } from "../../../features/registers/registerSlice";
 import {
@@ -5,17 +6,23 @@ import {
   HexToDec,
   representWithRadix,
 } from "../../../utils/hexadecimal-representation";
-import { mergeBytes } from "../../../utils/read-memory";
+import { mergeBytes, splitIntoBytes } from "../../../utils/read-memory";
 import { readNumber } from "../../../utils/reading-numbers";
 import { InstructionType } from "../../supported-instructions";
 
 export const CALL = (): { [key: string]: InstructionType } => {
-  const MakeCALLInstruction = (opcode: string): InstructionType => {
+  const INSTRUCTION_SIZE = 3;
+
+  const MakeCALLInstruction = (
+    opcode: string,
+    code: string,
+    condition: (state: RootState) => boolean
+  ): InstructionType => {
     return {
       opcode,
       compiler: (line: string) => {
         line = line.trim();
-        if (!line.startsWith("CALL")) {
+        if (!line.startsWith(code)) {
           return { compiled: false, compiledCode: null };
         }
 
@@ -37,34 +44,48 @@ export const CALL = (): { [key: string]: InstructionType } => {
       },
       execute: (state, dispatch, stack) => {
         const location = state.registers.PC;
-        const SP = state.registers.SP;
 
-        const lowBitsRoutineAddress = state.memory[location + 1];
-        const highBitsRoutineAddress = state.memory[location + 2];
+        if (condition(state)) {
+          const SP = state.registers.SP;
 
-        const routineAddress = mergeBytes(
-          highBitsRoutineAddress,
-          lowBitsRoutineAddress
-        );
+          const lowBitsRoutineAddress = state.memory[location + 1];
+          const highBitsRoutineAddress = state.memory[location + 2];
 
-        const returnLocation = representWithRadix(DecToHex(location + 3), 4);
-        const highBitsReturnAddress = HexToDec(returnLocation.substring(0, 2));
-        const lowBitsReturnAddress = HexToDec(returnLocation.substring(2));
+          const [highBitsReturnAddress, lowBitsReturnAddress] = splitIntoBytes(
+            location + 3
+          );
 
-        dispatch(
-          setMemoryLocation({ location: SP - 1, value: highBitsReturnAddress })
-        );
-        dispatch(
-          setMemoryLocation({ location: SP - 2, value: lowBitsReturnAddress })
-        );
-        dispatch(loadRegister({ register: "SP", value: SP - 2 }));
-
-        return routineAddress;
+          const routineAddress = mergeBytes(
+            highBitsRoutineAddress,
+            lowBitsRoutineAddress
+          );
+          dispatch(
+            setMemoryLocation({
+              location: SP - 1,
+              value: highBitsReturnAddress,
+            })
+          );
+          dispatch(
+            setMemoryLocation({ location: SP - 2, value: lowBitsReturnAddress })
+          );
+          dispatch(loadRegister({ register: "SP", value: SP - 2 }));
+          return routineAddress;
+        } else {
+          return location + INSTRUCTION_SIZE;
+        }
       },
     };
   };
 
   return {
-    CD: MakeCALLInstruction("CD"),
+    CD: MakeCALLInstruction("CD", "CALL", () => true),
+    C4: MakeCALLInstruction("C4", "CNZ", (state) => !state.flags.Z),
+    CC: MakeCALLInstruction("CC", "CZ", (state) => state.flags.Z),
+    D4: MakeCALLInstruction("D4", "CNC", (state) => !state.flags.C),
+    DC: MakeCALLInstruction("DC", "CC", (state) => state.flags.C),
+    E4: MakeCALLInstruction("E4", "CPO", (state) => !state.flags.P),
+    EC: MakeCALLInstruction("EC", "CPE", (state) => state.flags.P),
+    F4: MakeCALLInstruction("F4", "CP", (state) => !state.flags.S),
+    FC: MakeCALLInstruction("FC", "CM", (state) => state.flags.S),
   };
 };

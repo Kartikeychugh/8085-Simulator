@@ -43,6 +43,6 @@ export const SUI = (): { [key: string]: InstructionType } => {
   };
 
   return {
-    C6: MakeSUIInstruction("C6"),
+    D6: MakeSUIInstruction("D6"),
   };
 };

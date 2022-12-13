@@ -13,6 +13,7 @@ export const LHLD = (): { [key: string]: InstructionType } => {
     return {
       opcode,
       compiler: (line: string) => {
+        line = line.trim();
         if (!line.startsWith("LHLD")) {
           return { compiled: false, compiledCode: null };
         }
