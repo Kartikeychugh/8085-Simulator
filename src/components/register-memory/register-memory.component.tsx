@@ -4,7 +4,10 @@ import {
   Registers,
   selectRegisters,
 } from "../../features/registers/registerSlice";
-import { DecToHex } from "../../utils/hexadecimal-representation";
+import {
+  DecToHex,
+  representWithRadix,
+} from "../../utils/hexadecimal-representation";
 import { Table } from "../table/table.component";
 
 export const RegisterMemory = () => {
@@ -20,7 +23,10 @@ export const RegisterMemory = () => {
     });
     row.push({
       editable: true,
-      value: `${DecToHex(entry[1])}`,
+      value: `0x${representWithRadix(
+        DecToHex(entry[1]),
+        entry[0] == "SP" ? 4 : 2
+      )}`,
       onCellChange: (new_value: string) => {
         dispatch(
           loadRegister({

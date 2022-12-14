@@ -25,7 +25,7 @@ export const MainMemory = () => {
     row.push({
       type: "text",
       editable: true,
-      value: `${DecToHex(entry)}`,
+      value: `0x${representWithRadix(DecToHex(entry), 2)}`,
       onCellChange: (new_value: string) => {
         const result = readNumber(new_value);
         if (result.valid) {

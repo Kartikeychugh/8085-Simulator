@@ -38,6 +38,6 @@ export const XCHG = (): { [key: string]: InstructionType } => {
   };
 
   return {
-    C6: MakeXCHGInstruction("C6"),
+    EB: MakeXCHGInstruction("EB"),
   };
 };

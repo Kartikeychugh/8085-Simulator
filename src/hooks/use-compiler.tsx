@@ -23,6 +23,7 @@ const useCompileCallback = () => {
       }
 
       if (!validLine) {
+        console.error(`Error compiling: ${line}`);
         break;
       }
     }
